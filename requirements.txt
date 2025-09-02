@@ -1,0 +1,7 @@
+httpx
+torch
+transformers
+datasets
+pydantic
+fastapi
+uvicorn
