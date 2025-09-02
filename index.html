@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Cursor Autocomplete</title>
+  <style>
+    :root{--bg:#0e1116;--panel:#0f141a;--ink:#e6edf3;--muted:#9fb3c8;--acc:#00ffa3;--edge:#203040;--ghost:#6fffc0;}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
+    header{padding:16px 20px;border-bottom:1px solid #1b2430;display:flex;gap:12px;align-items:center}
+    .title{font-weight:800;letter-spacing:.5px;color:var(--acc)}
+    .pill{font-size:12px;padding:4px 8px;border:1px solid #244;border-radius:999px;color:var(--muted)}
+    main{max-width:980px;margin:20px auto;padding:0 20px;display:grid;gap:16px}
+    .card{background:var(--panel);border:1px solid var(--edge);border-radius:10px}
+    .section{padding:14px;border-bottom:1px solid #19202a}.section:last-child{border-bottom:none}
+    .label{color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:.12em;margin-bottom:6px}
+    #ai{min-height:40px;white-space:pre-wrap;color:var(--ghost);display:none}
+    #meta{font-size:12px;color:#a7c1d9;margin-top:6px}
+    textarea{width:100%;min-height:240px;resize:vertical;border:none;outline:none;background:transparent;color:var(--ink);font:inherit}
+    .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .select, .btn{background:#0b0f15;border:1px solid #1c2a36;color:#cde;padding:6px 8px;border-radius:8px}
+    .hint{color:#9fb3c8;font-size:12px}.kbd{border:1px solid #2a3b52;padding:2px 6px;border-radius:6px;color:#bfe}
+    /* Editor + ghost overlay (Cursor-style) */
+.editor-wrap{
+  position:relative; 
+  width:100%;
+  min-height:540px;
+}
+#ghost, #editor{
+  font:14px/1.45 ui-monospace,Menlo,Consolas,monospace;
+  white-space:pre-wrap;
+  word-break:break-word;
+  tab-size:2;
+  letter-spacing:0;
+  padding:12px;
+}
+#ghost{
+  position:absolute; inset:0;
+  color:transparent;        
+  pointer-events:none;
+  overflow:auto;
+}
+#ghost .typed{ color: transparent; }
+#ghost .ghost{ color: var(--ghost); opacity:.88; }
+#editor{
+  position:relative;
+  width:100%;
+  background:transparent;
+  color:var(--ink);
+  border:none; outline:none;
+  resize:vertical;
+}
+.editor-wrap .frame{
+  border:1px solid var(--edge);
+  border-radius:10px;
+  background:var(--panel);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">Cursor Autocomplete</div>
+    <div class="pill">PCAS (Trie+DFA) / Ollama (prompt)</div>
+    <div class="pill">Press <span class="kbd">Tab</span> to accept</div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="section">
+        <div class="row">
+            <label class="hint">Backend</label>
+            <select id="backendSel" class="select">
+              <option value="ollama" selected>Ollama (prompt)</option>
+              <option value="pcas">PCAS (HF)</option>
+            </select>
+            <label class="hint">Language</label>
+            <select id="langSel" class="select">
+              <option>python</option><option>javascript</option><option>typescript</option><option>cpp</option><option>java</option>
+            </select>
+          </div>
+        </div>
+        <div id="ai"></div>
+      </div>
+      <div class="section">
+        <div class="label">Text Editor</div>
+        <div class="editor-wrap frame">
+          <pre id="ghost"><span class="typed"></span><span class="ghost"></span></pre>
+          <textarea id="editor" placeholder="Type your code..."></textarea>
+        </div>
+        <div>
+          <div id="meta"></div>
+        </div>
+        <div class="hint">Press <span class="kbd">Tab</span> to accept • <span class="kbd">Esc</span> to dismiss • Autocomplete updates each keystroke.</div>        
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API_STREAM = "http://localhost:7000/cpc_stream";
+    const editor   = document.getElementById('editor');
+    const ghost    = document.getElementById('ghost');
+    const gTyped   = ghost.querySelector('.typed');
+    const gGhost   = ghost.querySelector('.ghost');
+    const ai       = document.getElementById('ai');   
+    const meta     = document.getElementById('meta');
+    const backendSel = document.getElementById('backendSel');
+    const langSel    = document.getElementById('langSel');
+    
+    let controller = null;
+    let completion = "";     
+    let lastPrefix = "";     
+    let lastContext = "";   
+    let lastBackend = "?";
+    
+    function escapeHTML(s){
+      return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    function splitAtCursor(text, cursor){
+      const before = text.slice(0, cursor);
+      const after  = text.slice(cursor);
+      const bNew = before.lastIndexOf("\n");
+      const bSp  = before.lastIndexOf(" ");
+      const bTab = before.lastIndexOf("\t");
+      const m = Math.max(bNew, bSp, bTab);
+      if (m < 0) return ["", before, after];
+      return [before.slice(0, m+1), before.slice(m+1), after]; 
+    }
+    function debounce(fn, ms=60){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+    
+    function syncOverlay(){
+      const val = editor.value;
+      const cur = editor.selectionStart;
+
+      const [, , after] = splitAtCursor(val, cur);
+      gTyped.innerHTML = escapeHTML(val);
+      gGhost.innerHTML = escapeHTML(completion) + "";
+
+      ghost.scrollTop = editor.scrollTop;
+      ghost.scrollLeft = editor.scrollLeft;
+    }
+    editor.addEventListener('scroll', ()=>{
+      ghost.scrollTop = editor.scrollTop;
+      ghost.scrollLeft = editor.scrollLeft;
+    });
+    
+    async function streamSuggestion(){
+      const cur = editor.selectionStart;
+      const [context, prefix] = splitAtCursor(editor.value, cur);
+      lastContext = context; lastPrefix = prefix;
+    
+      if (!prefix){
+        completion = "";
+        syncOverlay();
+        ai.textContent = "";
+        meta.textContent = "";
+        return;
+      }
+    
+      if (controller) controller.abort();
+      controller = new AbortController();
+    
+      completion = "";
+      syncOverlay();
+      ai.textContent = "…";
+      meta.textContent = "";
+    
+      const body = {
+        context,
+        prefix,
+        max_new_tokens: 48,
+        temperature: backendSel.value === "pcas" ? 0.4 : 0.3,
+        top_p: 0.92, top_k: 50,
+        mode: backendSel.value,
+        lang: langSel.value,
+        code_only: true
+      };
+    
+      const tStart = performance.now();
+      let ttfbMs = null;
+      let bytes = 0;
+      let remainingPrefix = prefix;
+    
+      try {
+        const res = await fetch(`${API_STREAM}?backend=${backendSel.value}`, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(body),
+          signal: controller.signal
+        });
+    
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = "";
+    
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          bytes += value.byteLength;
+          buf += decoder.decode(value, { stream:true });
+    
+          const blocks = buf.split("\n\n");
+          buf = blocks.pop();
+          for (const block of blocks){
+            let event = "message", data = "";
+            for (const line of block.split("\n")){
+              if (line.startsWith("event:")) event = line.slice(6).trim();
+              else if (line.startsWith("data:")) data += line.slice(5).trim();
+            }
+            if (!data) continue;
+            let payload = {};
+            try { payload = JSON.parse(data); } catch {}
+    
+            if (event === "meta" && payload.backend){
+              lastBackend = payload.backend;
+            } else if (event === "ttfb" && payload.ms != null){
+              ttfbMs = payload.ms;
+            } else if (event === "chunk" && payload.text){
+              if (ttfbMs == null) ttfbMs = Math.round(performance.now() - tStart);
+              let chunk = payload.text;
+    
+              if (remainingPrefix){
+                const need = remainingPrefix;
+                if (chunk.startsWith(need)){
+                  remainingPrefix = "";
+                  chunk = "";
+                } else {
+                  let i = 0;
+                  const L = Math.min(need.length, chunk.length);
+                  while (i < L && need[i] === chunk[i]) i++;
+                  remainingPrefix = need.slice(i);
+                  chunk = chunk.slice(i);
+                }
+              }
+              if (chunk){
+                completion += chunk;
+                syncOverlay();
+                meta.textContent = `backend=${lastBackend} • TTFB=${ttfbMs}ms • bytes=${bytes}`;
+              }
+            } else if (event === "done"){
+              const totalMs = Math.round(performance.now() - tStart);
+              const calls = payload.calls_prefix ?? "-";
+              const tokens = payload.tokens_emitted ?? "-";
+              ai.textContent = completion ? completion : "";
+              meta.textContent = `backend=${lastBackend} • TTFB=${ttfbMs ?? "-"}ms • total=${totalMs}ms • calls(prefix)=${calls} • tokens=${tokens} • bytes=${bytes}`;
+            }
+          }
+        }
+      } catch (e){
+        if (e.name !== "AbortError"){
+          console.error(e);
+          ai.textContent = "(error)";
+          meta.textContent = "";
+        }
+      }
+    }
+    
+    const debounced = debounce(streamSuggestion, 60);
+    editor.addEventListener('input', ()=>{ debounced(); syncOverlay(); });
+    editor.addEventListener('keyup',  ()=> syncOverlay());
+    editor.addEventListener('click',  ()=> syncOverlay());
+    editor.addEventListener('keydown', (e)=>{
+      if (e.key === 'Tab' && completion){
+        e.preventDefault();
+        const cur = editor.selectionStart;
+        const before = editor.value.slice(0, cur);
+        const after  = editor.value.slice(cur);
+        editor.value = before + completion + after;
+        const newPos = (before + completion).length;
+        editor.setSelectionRange(newPos, newPos);
+        completion = "";
+        syncOverlay();
+        debounced();
+      } else if (e.key === 'Escape'){
+        completion = "";
+        syncOverlay();
+      }
+    });
+    
+    syncOverlay();
+    debounced();
+    </script>
+    
+</body>
+</html>
