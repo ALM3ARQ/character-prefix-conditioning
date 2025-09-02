@@ -1,3 +1,7 @@
+
+https://github.com/user-attachments/assets/b5094911-21e3-4867-838d-03275eb6af0e
+
+
 TokenTrie Structure:
 ```plain
         (root)
